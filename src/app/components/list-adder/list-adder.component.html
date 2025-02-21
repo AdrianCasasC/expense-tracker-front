@@ -1,0 +1,11 @@
+<button (click)="onAddItem()" class="p-4 rounded-xl shadowed w-full mb-4">
+  {{ buttonLabel() }}
+</button>
+@for (item of items(); track $index) {
+<div
+  class="w-full rounded-md shadowed bg-white p-4 flex justify-between items-center mb-4"
+>
+  <span>{{ item.name }}</span>
+  <span>{{ item.value }}</span>
+</div>
+}

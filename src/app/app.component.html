@@ -1,0 +1,35 @@
+<div class="m-12">
+  <router-outlet></router-outlet>
+</div>
+<exptr-footer-menu
+  class="fixed bottom-0 left-0 w-full h-[120px] bg-black shadow-[0_-4px_8px_rgba(0,0,0,0.6)] text-white centered px-6"
+></exptr-footer-menu>
+
+<!-- <div
+  class="wrapper hidden allow-discrete absolute w-screen h-screen z-[999] bg-black/75"
+  [class.show]="showSessionModal"
+>
+  <div
+    (clickOutside)="onCloseSessionModal()"
+    class="close-session absolute rounded centered p-8 bg-white text-black max-sm:p-4"
+    [class.show]="showSessionModal"
+  >
+    <span class="w-full text-center block mb-8 max-sm:text-[14px]">{{
+      "close-session.text" | translate
+    }}</span>
+    <div class="w-full flex justify-between">
+      <button
+        (click)="onCloseSessionModal()"
+        class="w-[40%] rounded p-4 bg-black cursor-pointer text-white max-sm:text-[12px] max-sm:p-2"
+      >
+        {{ "close-session.no" | translate }}
+      </button>
+      <button
+        (click)="onCloseSession()"
+        class="w-[40%] rounded p-4 bg-gold cursor-pointer text-black max-sm:text-[12px] max-sm:p-2"
+      >
+        {{ "close-session.yes" | translate }}
+      </button>
+    </div>
+  </div>
+</div> -->

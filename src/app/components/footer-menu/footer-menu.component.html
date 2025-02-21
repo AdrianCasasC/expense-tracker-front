@@ -1,0 +1,7 @@
+<ul class="flex justify-between items-center w-full">
+  @for (option of menuOptions; track $index) {
+  <li class="cursor-pointer">
+    <a [routerLink]="'/' + option.value">{{ option.label }}</a>
+  </li>
+  }
+</ul>
