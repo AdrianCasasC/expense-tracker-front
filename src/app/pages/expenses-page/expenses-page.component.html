@@ -3,6 +3,7 @@
     [title]="'Lista de gastos'"
     [items]="defaultExpensesList"
     [buttonLabel]="'Añadir gasto'"
-    (onAdd)="OnAddExpense($event)"
+    (onAdd)="onAddExpense($event)"
+    (onDelete)="onDeleteExpense($event)"
   ></exptr-list-adder>
 </div>

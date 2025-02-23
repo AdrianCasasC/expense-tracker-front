@@ -58,9 +58,29 @@
 </button>
 @for (item of items(); track $index) {
 <div
-  class="w-full rounded-md shadowed bg-white p-4 flex justify-between items-center mb-4"
+  class="w-full allow-keywords rounded-md shadowed bg-white flex justify-between items-center mb-4 relative"
+  (click)="onShowItemOptions()"
 >
-  <span>{{ item.name }}</span>
-  <span>{{ item.value }}</span>
+  <div class="w-full flex justify-between p-4">
+    <span>{{ item.name }}</span>
+    <span>{{ item.value | numberFormatter }}</span>
+  </div>
+  <div
+    class="w-0 h-full overflow-hidden transition-[width] duration-300 ease-in-out flex"
+    [class.w-fit]="showItemOptions"
+  >
+    <div
+      class="w-12 h-full p-4 bg-green-500 text-white"
+      (click)="onEditItem(item.id!)"
+    >
+      Editar
+    </div>
+    <div
+      class="w-12 h-full p-4 bg-red-500 text-white"
+      (click)="onDeleteItem(item.id!)"
+    >
+      Eliminar
+    </div>
+  </div>
 </div>
 }

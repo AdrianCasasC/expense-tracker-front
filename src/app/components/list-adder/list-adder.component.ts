@@ -6,11 +6,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
 
 @Component({
   selector: 'exptr-list-adder',
   standalone: true,
-  imports: [ReactiveFormsModule, ClickOutsideDirective],
+  imports: [ReactiveFormsModule, ClickOutsideDirective, NumberFormatterPipe],
   templateUrl: './list-adder.component.html',
   styleUrl: './list-adder.component.scss',
 })
@@ -25,9 +26,11 @@ export class ListAdderComponent {
 
   /* Outputs */
   onAdd = output<ListItem>();
+  onDelete = output<string>();
 
   /* Variables */
   showModal: boolean = false;
+  showItemOptions: boolean = false;
 
   /* Form */
   itemForm = this._fb.group({
@@ -49,6 +52,7 @@ export class ListAdderComponent {
   onConfirmItem(): void {
     if (this.itemForm.valid) {
       const newItem: ListItem = {
+        id: Math.random().toString(36).substr(2, 9),
         name: this.itemForm.get('name')?.value || '',
         value: this.itemForm.get('value')?.value || 0,
       };
@@ -56,6 +60,18 @@ export class ListAdderComponent {
       this.clearForm();
       this.onCloseModal();
     }
+  }
+
+  onDeleteItem(itemId: string): void {
+    this.onDelete.emit(itemId);
+  }
+
+  onEditItem(itemId: string): void {
+    // Add modal with current information
+  }
+
+  onShowItemOptions(): void {
+    this.showItemOptions = true;
   }
 
   onCloseModal(): void {
@@ -66,6 +82,7 @@ export class ListAdderComponent {
 }
 
 export interface ListItem {
+  id?: string;
   name: string;
   value: string | number;
 }

@@ -14,20 +14,29 @@ import {
 export class ExpensesPageComponent {
   defaultExpensesList: ListItem[] = [
     {
+      id: '1',
       name: 'Comida',
       value: 0,
     },
     {
+      id: '2',
       name: 'Transporte',
       value: 0,
     },
     {
+      id: '3',
       name: 'Ropa',
       value: 0,
     },
   ];
 
-  OnAddExpense(expense: ListItem): void {
+  onAddExpense(expense: ListItem): void {
     this.defaultExpensesList.push(expense);
+  }
+
+  onDeleteExpense(expenseId: string): void {
+    this.defaultExpensesList = this.defaultExpensesList.filter(
+      (item) => item.id !== expenseId
+    );
   }
 }

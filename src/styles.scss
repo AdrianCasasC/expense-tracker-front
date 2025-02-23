@@ -51,3 +51,7 @@ ul, ol {
 .allow-discrete {
   transition: display 300ms ease allow-discrete;
 }
+
+.allow-keywords {
+  interpolate-size: allow-keywords;
+}
