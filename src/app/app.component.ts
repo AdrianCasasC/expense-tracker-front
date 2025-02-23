@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterMenuComponent } from './components/footer-menu/footer-menu.component';
 
+// "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=4200 --user-data-dir="C:\chrome-debug"
 @Component({
   selector: 'app-root',
   standalone: true,

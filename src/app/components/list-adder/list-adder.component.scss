@@ -1,3 +1,26 @@
 :host {
   width: 100%;
 }
+
+.wrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  &.show {
+    display: flex;
+  }
+  .close-session {
+    display: none;
+    scale: 0;
+    transition: scale 0.3s ease-in-out, display 0.3s ease allow-discrete;
+
+    &.show {
+      display: block;
+      scale: 1;
+
+      @starting-style {
+        scale: 0;
+      }
+    }
+  }
+}

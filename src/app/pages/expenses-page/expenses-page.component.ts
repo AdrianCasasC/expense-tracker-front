@@ -26,4 +26,8 @@ export class ExpensesPageComponent {
       value: 0,
     },
   ];
+
+  OnAddExpense(expense: ListItem): void {
+    this.defaultExpensesList.push(expense);
+  }
 }
