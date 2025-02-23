@@ -37,6 +37,13 @@ export class ExpensesPageComponent {
     this.defaultExpensesList.push(expense);
   }
 
+  onEditExpense(expense: ListItem): void {
+    const index = this.defaultExpensesList.findIndex(
+      (item) => item.id === expense.id
+    );
+    this.defaultExpensesList[index] = expense;
+  }
+
   onDeleteExpense(expenseId: string): void {
     this.defaultExpensesList = this.defaultExpensesList.filter(
       (item) => item.id !== expenseId

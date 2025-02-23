@@ -27,36 +27,63 @@ export class ListAdderComponent {
   /* Outputs */
   onAdd = output<ListItem>();
   onDelete = output<string>();
+  onEdit = output<ListItem>();
 
   /* Variables */
   showModal: boolean = false;
 
   /* Form */
   itemForm = this._fb.group({
+    id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    value: new FormControl('', [Validators.required]),
+    value: new FormControl(0, [Validators.required]),
   });
 
   private clearForm(): void {
     this.itemForm.reset();
   }
 
-  onAddItem(): void {
+  private createItem(): void {
+    const newItem: ListItem = {
+      id: Math.random().toString(36).slice(2, 9),
+      showOptions: false,
+      name: this.itemForm.get('name')?.value || '',
+      value: this.itemForm.get('value')?.value || 0,
+    };
+    this.onAdd.emit(newItem);
+  }
+
+  private editItem(id: string): void {
+    const editedItem: ListItem = {
+      id,
+      showOptions: this.itemForm.get('showOptions')?.value || false,
+      name: this.itemForm.get('name')?.value || '',
+      value: this.itemForm.get('value')?.value || 0,
+    };
+    this.onEdit.emit(editedItem);
+  }
+
+  onOpenModal(): void {
     setTimeout(() => {
       // Para que la directiva no cierre el modal antes de abrirlo
       this.showModal = true;
     });
   }
 
+  onCloseModal(): void {
+    if (this.showModal) {
+      this.showModal = false;
+    }
+  }
+
   onConfirmItem(): void {
     if (this.itemForm.valid) {
-      const newItem: ListItem = {
-        id: Math.random().toString(36).slice(2, 9),
-        showOptions: false,
-        name: this.itemForm.get('name')?.value || '',
-        value: this.itemForm.get('value')?.value || 0,
-      };
-      this.onAdd.emit(newItem);
+      const itemId = this.itemForm.get('id')?.value;
+      if (itemId) {
+        this.editItem(itemId);
+      } else {
+        this.createItem();
+      }
       this.clearForm();
       this.onCloseModal();
     }
@@ -67,7 +94,13 @@ export class ListAdderComponent {
   }
 
   onEditItem(itemId: string): void {
-    // Add modal with current information
+    const selectedItem = this.items().find((item) => item.id === itemId);
+    this.itemForm.patchValue({
+      id: selectedItem?.id,
+      name: selectedItem?.name,
+      value: selectedItem?.value,
+    });
+    this.onOpenModal();
   }
 
   onToggleItemOptions(itemId: string): void {
@@ -76,17 +109,11 @@ export class ListAdderComponent {
       selectedItem.showOptions = !selectedItem.showOptions;
     }
   }
-
-  onCloseModal(): void {
-    if (this.showModal) {
-      this.showModal = false;
-    }
-  }
 }
 
 export interface ListItem {
   id?: string;
   showOptions: boolean;
   name: string;
-  value: string | number;
+  value: number;
 }
