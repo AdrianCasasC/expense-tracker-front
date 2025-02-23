@@ -1,10 +1,15 @@
-<div class="w-full min-h-full centered">
+<div class="w-full min-h-full centered flex flex-col gap-8">
   <exptr-list-adder
     [title]="'Lista de gastos'"
-    [items]="defaultExpensesList"
+    [items]="defaultExpensesList()"
     [buttonLabel]="'Añadir gasto'"
     (onAdd)="onAddExpense($event)"
     (onDelete)="onDeleteExpense($event)"
     (onEdit)="onEditExpense($event)"
   ></exptr-list-adder>
+
+  <div class="w-1/2 flex justify-between">
+    <span>Total:</span>
+    <span>{{ totalExpenses() }}</span>
+  </div>
 </div>

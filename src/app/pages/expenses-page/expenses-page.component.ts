@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import {
   ListAdderComponent,
   ListItem,
@@ -12,7 +12,7 @@ import {
   styleUrl: './expenses-page.component.scss',
 })
 export class ExpensesPageComponent {
-  defaultExpensesList: ListItem[] = [
+  defaultExpensesList = signal<ListItem[]>([
     {
       id: '1',
       showOptions: false,
@@ -23,7 +23,7 @@ export class ExpensesPageComponent {
       id: '2',
       showOptions: false,
       name: 'Transporte',
-      value: 0,
+      value: 12,
     },
     {
       id: '3',
@@ -31,22 +31,34 @@ export class ExpensesPageComponent {
       name: 'Ropa',
       value: 0,
     },
-  ];
+  ]);
+
+  totalExpenses = computed(() =>
+    this.defaultExpensesList().reduce((acc, item) => acc + item.value, 0)
+  );
+
+  constructor() {
+    effect(() =>
+      console.log('Expenses executed edited: ', this.defaultExpensesList())
+    );
+  }
 
   onAddExpense(expense: ListItem): void {
-    this.defaultExpensesList.push(expense);
+    this.defaultExpensesList.update((prev) => [...prev, expense]);
   }
 
   onEditExpense(expense: ListItem): void {
-    const index = this.defaultExpensesList.findIndex(
+    const index = this.defaultExpensesList().findIndex(
       (item) => item.id === expense.id
     );
-    this.defaultExpensesList[index] = expense;
+    this.defaultExpensesList.update((prev) =>
+      prev.map((item, i) => (i === index ? expense : item))
+    );
   }
 
   onDeleteExpense(expenseId: string): void {
-    this.defaultExpensesList = this.defaultExpensesList.filter(
-      (item) => item.id !== expenseId
+    this.defaultExpensesList.update((prev) =>
+      prev.filter((item) => item.id !== expenseId)
     );
   }
 }

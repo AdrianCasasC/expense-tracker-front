@@ -104,6 +104,9 @@ export class ListAdderComponent {
   }
 
   onToggleItemOptions(itemId: string): void {
+    this.items().forEach((item) => {
+      if (item.id !== itemId) item.showOptions = false;
+    });
     const selectedItem = this.items().find((item) => item.id === itemId);
     if (selectedItem) {
       selectedItem.showOptions = !selectedItem.showOptions;
