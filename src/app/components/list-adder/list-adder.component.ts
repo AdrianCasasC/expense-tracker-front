@@ -30,7 +30,6 @@ export class ListAdderComponent {
 
   /* Variables */
   showModal: boolean = false;
-  showItemOptions: boolean = false;
 
   /* Form */
   itemForm = this._fb.group({
@@ -52,7 +51,8 @@ export class ListAdderComponent {
   onConfirmItem(): void {
     if (this.itemForm.valid) {
       const newItem: ListItem = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: Math.random().toString(36).slice(2, 9),
+        showOptions: false,
         name: this.itemForm.get('name')?.value || '',
         value: this.itemForm.get('value')?.value || 0,
       };
@@ -70,8 +70,11 @@ export class ListAdderComponent {
     // Add modal with current information
   }
 
-  onShowItemOptions(): void {
-    this.showItemOptions = true;
+  onToggleItemOptions(itemId: string): void {
+    const selectedItem = this.items().find((item) => item.id === itemId);
+    if (selectedItem) {
+      selectedItem.showOptions = !selectedItem.showOptions;
+    }
   }
 
   onCloseModal(): void {
@@ -83,6 +86,7 @@ export class ListAdderComponent {
 
 export interface ListItem {
   id?: string;
+  showOptions: boolean;
   name: string;
   value: string | number;
 }

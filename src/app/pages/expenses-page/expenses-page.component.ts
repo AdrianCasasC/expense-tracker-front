@@ -15,16 +15,19 @@ export class ExpensesPageComponent {
   defaultExpensesList: ListItem[] = [
     {
       id: '1',
+      showOptions: false,
       name: 'Comida',
       value: 0,
     },
     {
       id: '2',
+      showOptions: false,
       name: 'Transporte',
       value: 0,
     },
     {
       id: '3',
+      showOptions: false,
       name: 'Ropa',
       value: 0,
     },

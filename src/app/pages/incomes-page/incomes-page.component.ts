@@ -14,14 +14,20 @@ import {
 export class IncomesPageComponent {
   defaultIncomesList: ListItem[] = [
     {
+      id: '1',
+      showOptions: false,
       name: 'Sueldo',
       value: 1800.0,
     },
     {
+      id: '2',
+      showOptions: false,
       name: 'Intereses',
       value: 50.0,
     },
     {
+      id: '3',
+      showOptions: false,
       name: 'Inversiones',
       value: 12.5,
     },
