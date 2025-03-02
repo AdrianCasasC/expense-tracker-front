@@ -1,7 +1,15 @@
-<div class="w-full min-h-full centered">
+<div class="w-full min-h-full flex flex-col justify-between items-center gap-8">
   <exptr-list-adder
     [title]="'Lista de Ingresos'"
-    [items]="defaultIncomesList"
+    [items]="defaultIncomesList()"
     [buttonLabel]="'Añadir ingreso'"
+    (onAdd)="onAddIncome($event)"
+    (onDelete)="onDeleteIncome($event)"
+    (onEdit)="onEditIncome($event)"
   ></exptr-list-adder>
+
+  <div class="w-1/2 flex justify-between">
+    <span class="uppercase font-bold">Total:</span>
+    <span class="font-bold">{{ totalIncomes() | numberFormatter }}</span>
+  </div>
 </div>
