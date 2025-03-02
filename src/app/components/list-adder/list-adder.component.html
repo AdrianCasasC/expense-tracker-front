@@ -24,6 +24,43 @@
         />
       </div>
 
+      <div class="mb-4">
+        <label for="category" class="mb-4">Categoría</label>
+        <div class="relative w-full">
+          <input
+            #dropdownInput
+            formControlName="category"
+            name="category"
+            type="text"
+            class="w-full rounded bg-white border border-black text-[12px] p-2"
+            placeholder="Ej. 120.20"
+            autocomplete="off"
+            [value]="categoryLabel"
+            (focus)="onShowDropdown()"
+            (blur)="onHideDropdown()"
+            (input)="onFilterOptions($event)"
+          />
+          <div
+            class="absolute allow-keywords bottom-0 left-0 bg-white !border-t-0 w-full h-0 translate-y-full transition-[height] duration-300 overflow-auto max-h-[130px] z-[100]"
+            [class.!h-fit]="showDropdown"
+            [class.border-2]="showDropdown"
+            [class.!border-black]="showDropdown"
+          >
+            @if (dropdownOptions.length) { @for (option of dropdownOptions;
+            track $index) {
+            <div
+              (mousedown)="onSelectOption(option.value)"
+              class="border-b-2 w-full p-2 centered bg-white hover:bg-gray-400"
+            >
+              <span class="text-black">{{ option.label }}</span>
+            </div>
+            } } @else {
+            <span class="p-2 block text-center">No hay coincidencias :(</span>
+            }
+          </div>
+        </div>
+      </div>
+
       <div class="mb-10">
         <label for="value" class="mb-4">Cantidad</label>
         <input

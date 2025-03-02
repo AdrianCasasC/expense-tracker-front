@@ -1,5 +1,6 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, ViewChild } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   ReactiveFormsModule,
@@ -19,6 +20,9 @@ export class ListAdderComponent {
   /* Injections */
   private readonly _fb = inject(FormBuilder);
 
+  /* ViewChild */
+  @ViewChild('dropdownInput') dropdownInput!: HTMLInputElement;
+
   /* Signal Inputs */
   title = input<string>('');
   buttonLabel = input<string>('');
@@ -31,12 +35,34 @@ export class ListAdderComponent {
 
   /* Variables */
   showModal: boolean = false;
+  showDropdown: boolean = false;
+  categoryLabel: string = '';
+  dropdownOptions = [
+    {
+      label: 'Comida',
+      value: 'food',
+    },
+    {
+      label: 'Ocio',
+      value: 'leisure',
+    },
+    {
+      label: 'Casa',
+      value: 'home',
+    },
+    {
+      label: 'Gimnasio',
+      value: 'gym',
+    },
+  ];
+  defaultDropdownOptions = this.dropdownOptions;
 
   /* Form */
   itemForm = this._fb.group({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     value: new FormControl(0, [Validators.required]),
+    category: new FormControl('', [Validators.required]),
   });
 
   private clearForm(): void {
@@ -111,6 +137,34 @@ export class ListAdderComponent {
     if (selectedItem) {
       selectedItem.showOptions = !selectedItem.showOptions;
     }
+  }
+
+  onShowDropdown(): void {
+    this.showDropdown = true;
+  }
+
+  onHideDropdown(): void {
+    this.showDropdown = false;
+  }
+
+  onFilterOptions(event: any): void {
+    const value = event?.target.value.toLowerCase();
+    this.dropdownOptions = this.defaultDropdownOptions.filter((option) =>
+      option.label.toLowerCase().includes(value)
+    );
+  }
+
+  onSelectOption(value: string): void {
+    const categoryControl = this.itemForm.get('category');
+    console.log('category control: ', categoryControl);
+    categoryControl?.setValue(value);
+    const labelOption = this.defaultDropdownOptions.find(
+      (opt) => opt.value === value
+    );
+    if (labelOption) {
+      this.categoryLabel = labelOption.label;
+    }
+    console.log('Category label: ', this.categoryLabel);
   }
 }
 
