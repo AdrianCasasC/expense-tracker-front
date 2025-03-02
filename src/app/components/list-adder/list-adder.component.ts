@@ -156,7 +156,6 @@ export class ListAdderComponent {
 
   onSelectOption(value: string): void {
     const categoryControl = this.itemForm.get('category');
-    console.log('category control: ', categoryControl);
     categoryControl?.setValue(value);
     const labelOption = this.defaultDropdownOptions.find(
       (opt) => opt.value === value
@@ -164,7 +163,6 @@ export class ListAdderComponent {
     if (labelOption) {
       this.categoryLabel = labelOption.label;
     }
-    console.log('Category label: ', this.categoryLabel);
   }
 }
 
