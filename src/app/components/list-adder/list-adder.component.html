@@ -56,36 +56,41 @@
   </div>
 </div>
 
-<button (click)="onOpenModal()" class="p-4 rounded-xl shadowed w-full mb-4">
+<button
+  (click)="onOpenModal()"
+  class="bg-[#598234] p-4 rounded-xl shadowed w-full mb-4 text-white uppercase"
+>
   {{ buttonLabel() }}
 </button>
-@for (item of items(); track $index) {
-<div
-  class="w-full h-[60px] allow-keywords rounded-md shadowed bg-white flex justify-between items-center mb-4 relative"
->
+<div class="flex flex-col max-h-[80%] overflow-auto">
+  @for (item of items(); track $index) {
   <div
-    class="w-full h-full flex justify-between p-4"
-    (click)="onToggleItemOptions(item.id!)"
-  >
-    <span>{{ item.name }}</span>
-    <span>{{ item.value | numberFormatter }}</span>
-  </div>
-  <div
-    class="w-0 min-w-0 h-full overflow-hidden transition-[min-width] duration-300 ease-in-out flex"
-    [class.min-w-fit]="item.showOptions"
+    class="w-full h-[60px] allow-keywords rounded-md shadowed bg-white flex justify-between items-center mb-4 relative"
   >
     <div
-      class="h-full p-4 bg-green-500 text-white cursor-pointer"
-      (click)="onEditItem(item.id!)"
+      class="w-full h-full flex justify-between p-4"
+      (click)="onToggleItemOptions(item.id!)"
     >
-      <img src="../../../assets/icons/edit.svg" alt="editar" />
+      <span>{{ item.name }}</span>
+      <span>{{ item.value | numberFormatter }}</span>
     </div>
     <div
-      class="h-full p-4 bg-red-500 text-white cursor-pointer"
-      (click)="onDeleteItem(item.id!)"
+      class="w-0 min-w-0 h-full overflow-hidden transition-[min-width] duration-300 ease-in-out flex"
+      [class.min-w-fit]="item.showOptions"
     >
-      <img src="../../../assets/icons/remove.svg" alt="eliminar" />
+      <div
+        class="h-full p-4 bg-green-500 text-white cursor-pointer"
+        (click)="onEditItem(item.id!)"
+      >
+        <img src="../../../assets/icons/edit.svg" alt="editar" />
+      </div>
+      <div
+        class="h-full p-4 bg-red-500 text-white cursor-pointer"
+        (click)="onDeleteItem(item.id!)"
+      >
+        <img src="../../../assets/icons/remove.svg" alt="eliminar" />
+      </div>
     </div>
   </div>
+  }
 </div>
-}

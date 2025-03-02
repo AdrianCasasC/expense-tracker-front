@@ -1,4 +1,4 @@
-<div class="w-full min-h-full centered flex flex-col gap-8">
+<div class="w-full min-h-full flex flex-col justify-between items-center gap-8">
   <exptr-list-adder
     [title]="'Lista de gastos'"
     [items]="defaultExpensesList()"
@@ -9,7 +9,7 @@
   ></exptr-list-adder>
 
   <div class="w-1/2 flex justify-between">
-    <span>Total:</span>
-    <span>{{ totalExpenses() | numberFormatter }}</span>
+    <span class="uppercase font-bold">Total:</span>
+    <span class="font-bold">{{ totalExpenses() | numberFormatter }}</span>
   </div>
 </div>
