@@ -3,6 +3,10 @@ import { ListAdderComponent } from '../../components/list-adder/list-adder.compo
 import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
 import { NotificationService } from '../../services/notification.service';
 import { CategoryOption, ListItem } from '../../models/global.models';
+import {
+  defaultExpensesList,
+  expensesDropdownOptions,
+} from '../../constants/global.constants';
 
 @Component({
   selector: 'app-expenses-page',
@@ -16,51 +20,9 @@ export class ExpensesPageComponent {
   private readonly _notificationService = inject(NotificationService);
 
   /* Variables */
-  defaultExpensesList = signal<ListItem[]>([
-    {
-      id: '1',
-      showOptions: false,
-      name: 'Comida',
-      value: 0,
-      type: 'expense',
-      category: 'food',
-    },
-    {
-      id: '2',
-      showOptions: false,
-      name: 'Transporte',
-      value: 12,
-      type: 'expense',
-      category: 'transport',
-    },
-    {
-      id: '3',
-      showOptions: false,
-      name: 'Ropa',
-      value: 0,
-      type: 'expense',
-      category: 'clotes',
-    },
-  ]);
+  defaultExpensesList = defaultExpensesList;
 
-  dropdownOptions: CategoryOption<'expense'>[] = [
-    {
-      label: 'Comida',
-      value: 'food',
-    },
-    {
-      label: 'Ocio',
-      value: 'leisure',
-    },
-    {
-      label: 'Casa',
-      value: 'home',
-    },
-    {
-      label: 'Otros',
-      value: 'others',
-    },
-  ];
+  expensesDropdownOptions = expensesDropdownOptions;
 
   totalExpenses = computed(() =>
     this.defaultExpensesList().reduce((acc, item) => acc + item.value, 0)

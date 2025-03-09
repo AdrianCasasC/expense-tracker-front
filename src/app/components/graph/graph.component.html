@@ -1,9 +1,15 @@
-<div style="display: block">
+<div class="block">
   <canvas
     baseChart
     [data]="lineChartData"
     [options]="lineChartOptions"
-    chartType="line"
+    [type]="'line'"
   >
   </canvas>
+
+  <div class="w-full flex justify-between">
+    <span (click)="onPreviousMonth()">{{ "<" }}</span>
+    <h2>{{ selectedMonthLabel() }} {{ selectedYearNumber() }}</h2>
+    <span (click)="onNextMonth()">{{ ">" }}</span>
+  </div>
 </div>

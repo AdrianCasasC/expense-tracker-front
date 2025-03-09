@@ -1,8 +1,20 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ListAdderComponent } from '../../components/list-adder/list-adder.component';
 import { NotificationService } from '../../services/notification.service';
 import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
 import { CategoryOption, ListItem } from '../../models/global.models';
+import {
+  defaultIncomesList,
+  incomeDropdownOptions,
+} from '../../constants/global.constants';
+import { getIncomesByMonth } from '../../mocks/api.mock';
 
 @Component({
   selector: 'app-incomes-page',
@@ -11,64 +23,30 @@ import { CategoryOption, ListItem } from '../../models/global.models';
   templateUrl: './incomes-page.component.html',
   styleUrl: './incomes-page.component.scss',
 })
-export class IncomesPageComponent {
+export class IncomesPageComponent implements OnInit {
   /* Injections */
   private readonly _notificationService = inject(NotificationService);
 
-  defaultIncomesList = signal<ListItem[]>([
-    {
-      id: '1',
-      showOptions: false,
-      name: 'Sueldo',
-      value: 1800.0,
-      type: 'income',
-      category: 'salary',
-    },
-    {
-      id: '2',
-      showOptions: false,
-      name: 'Intereses',
-      value: 50.0,
-      type: 'income',
-      category: 'interests',
-    },
-    {
-      id: '3',
-      showOptions: false,
-      name: 'Inversiones',
-      value: 12.5,
-      type: 'income',
-      category: 'inversions',
-    },
-  ]);
+  defaultIncomesList = signal<ListItem[]>([]);
 
-  dropdownOptions: CategoryOption<'income'>[] = [
-    {
-      label: 'Salario',
-      value: 'salary',
-    },
-    {
-      label: 'Intereses',
-      value: 'interests',
-    },
-    {
-      label: 'Inversiones',
-      value: 'inversions',
-    },
-    {
-      label: 'Otros',
-      value: 'others',
-    },
-  ];
+  incomeDropdownOptions = incomeDropdownOptions;
 
   totalIncomes = computed(() =>
     this.defaultIncomesList().reduce((acc, item) => acc + item.value, 0)
   );
 
+  private initIcomeList(): void {
+    this.defaultIncomesList.set(getIncomesByMonth(new Date().getMonth() + 1));
+  }
+
   constructor() {
     effect(() =>
       console.log('Incomes executed edited: ', this.defaultIncomesList())
     );
+  }
+
+  ngOnInit(): void {
+    this.initIcomeList();
   }
 
   onAddIncome(income: ListItem): void {

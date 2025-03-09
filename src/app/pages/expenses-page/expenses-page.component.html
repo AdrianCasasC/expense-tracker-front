@@ -3,7 +3,7 @@
     [title]="'Lista de gastos'"
     [items]="defaultExpensesList()"
     [type]="'expense'"
-    [defaultDropdownOptions]="dropdownOptions"
+    [defaultDropdownOptions]="expensesDropdownOptions"
     [buttonLabel]="'Añadir gasto'"
     (onAdd)="onAddExpense($event)"
     (onDelete)="onDeleteExpense($event)"

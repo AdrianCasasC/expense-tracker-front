@@ -87,11 +87,14 @@ export class ListAdderComponent {
           ? (this.itemForm.get('category')?.value as ExpenseCategory)
           : (this.itemForm.get('category')?.value as IncomeCategory) ||
             'others',
+      date: new Date().toISOString(),
     };
     this.onAdd.emit(newItem);
   }
 
   private editItem(id: string): void {
+    // Llamada a API para traer el item por el ID
+
     const editedItem: ListItem = {
       id,
       showOptions: this.itemForm.get('showOptions')?.value || false,
@@ -103,6 +106,7 @@ export class ListAdderComponent {
           ? (this.itemForm.get('category')?.value as ExpenseCategory)
           : (this.itemForm.get('category')?.value as IncomeCategory) ||
             'others',
+      date: new Date().toISOString(), // Cambiar por la date que tiene el item que viene por ID
     };
     this.onEdit.emit(editedItem);
   }
