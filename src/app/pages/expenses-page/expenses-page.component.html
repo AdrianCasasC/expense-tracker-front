@@ -2,6 +2,8 @@
   <exptr-list-adder
     [title]="'Lista de gastos'"
     [items]="defaultExpensesList()"
+    [type]="'expense'"
+    [defaultDropdownOptions]="dropdownOptions"
     [buttonLabel]="'Añadir gasto'"
     (onAdd)="onAddExpense($event)"
     (onDelete)="onDeleteExpense($event)"

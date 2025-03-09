@@ -2,6 +2,8 @@
   <exptr-list-adder
     [title]="'Lista de Ingresos'"
     [items]="defaultIncomesList()"
+    [type]="'income'"
+    [defaultDropdownOptions]="dropdownOptions"
     [buttonLabel]="'Añadir ingreso'"
     (onAdd)="onAddIncome($event)"
     (onDelete)="onDeleteIncome($event)"

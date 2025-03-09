@@ -1,4 +1,11 @@
-import { Component, inject, input, output, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -8,6 +15,13 @@ import {
 } from '@angular/forms';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
+import {
+  CategoryOption,
+  ExpenseCategory,
+  IncomeCategory,
+  ItemType,
+  ListItem,
+} from '../../models/global.models';
 
 @Component({
   selector: 'exptr-list-adder',
@@ -27,6 +41,8 @@ export class ListAdderComponent {
   title = input<string>('');
   buttonLabel = input<string>('');
   items = input<ListItem[]>([]);
+  type = input.required<ItemType>();
+  defaultDropdownOptions = input.required<CategoryOption<ItemType>[]>();
 
   /* Outputs */
   onAdd = output<ListItem>();
@@ -37,25 +53,7 @@ export class ListAdderComponent {
   showModal: boolean = false;
   showDropdown: boolean = false;
   categoryLabel: string = '';
-  dropdownOptions = [
-    {
-      label: 'Comida',
-      value: 'food',
-    },
-    {
-      label: 'Ocio',
-      value: 'leisure',
-    },
-    {
-      label: 'Casa',
-      value: 'home',
-    },
-    {
-      label: 'Gimnasio',
-      value: 'gym',
-    },
-  ];
-  defaultDropdownOptions = this.dropdownOptions;
+  dropdownOptions: CategoryOption<ItemType>[] = [];
 
   /* Form */
   itemForm = this._fb.group({
@@ -64,6 +62,14 @@ export class ListAdderComponent {
     value: new FormControl(0, [Validators.required]),
     category: new FormControl('', [Validators.required]),
   });
+
+  constructor() {
+    effect(() => (this.dropdownOptions = this.defaultDropdownOptions()));
+  }
+
+  private getType<T>(value: T): string {
+    return typeof value;
+  }
 
   private clearForm(): void {
     this.itemForm.reset();
@@ -75,6 +81,12 @@ export class ListAdderComponent {
       showOptions: false,
       name: this.itemForm.get('name')?.value || '',
       value: this.itemForm.get('value')?.value || 0,
+      type: this.type(),
+      category:
+        this.type() === 'expense'
+          ? (this.itemForm.get('category')?.value as ExpenseCategory)
+          : (this.itemForm.get('category')?.value as IncomeCategory) ||
+            'others',
     };
     this.onAdd.emit(newItem);
   }
@@ -85,6 +97,12 @@ export class ListAdderComponent {
       showOptions: this.itemForm.get('showOptions')?.value || false,
       name: this.itemForm.get('name')?.value || '',
       value: this.itemForm.get('value')?.value || 0,
+      type: this.type(),
+      category:
+        this.type() === 'expense'
+          ? (this.itemForm.get('category')?.value as ExpenseCategory)
+          : (this.itemForm.get('category')?.value as IncomeCategory) ||
+            'others',
     };
     this.onEdit.emit(editedItem);
   }
@@ -149,7 +167,7 @@ export class ListAdderComponent {
 
   onFilterOptions(event: any): void {
     const value = event?.target.value.toLowerCase();
-    this.dropdownOptions = this.defaultDropdownOptions.filter((option) =>
+    this.dropdownOptions = this.defaultDropdownOptions().filter((option) =>
       option.label.toLowerCase().includes(value)
     );
   }
@@ -157,18 +175,11 @@ export class ListAdderComponent {
   onSelectOption(value: string): void {
     const categoryControl = this.itemForm.get('category');
     categoryControl?.setValue(value);
-    const labelOption = this.defaultDropdownOptions.find(
+    const labelOption = this.defaultDropdownOptions().find(
       (opt) => opt.value === value
     );
     if (labelOption) {
       this.categoryLabel = labelOption.label;
     }
   }
-}
-
-export interface ListItem {
-  id?: string;
-  showOptions: boolean;
-  name: string;
-  value: number;
 }

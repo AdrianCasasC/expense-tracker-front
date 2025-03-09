@@ -1,10 +1,8 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import {
-  ListAdderComponent,
-  ListItem,
-} from '../../components/list-adder/list-adder.component';
+import { ListAdderComponent } from '../../components/list-adder/list-adder.component';
 import { NotificationService } from '../../services/notification.service';
 import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
+import { CategoryOption, ListItem } from '../../models/global.models';
 
 @Component({
   selector: 'app-incomes-page',
@@ -23,20 +21,45 @@ export class IncomesPageComponent {
       showOptions: false,
       name: 'Sueldo',
       value: 1800.0,
+      type: 'income',
+      category: 'salary',
     },
     {
       id: '2',
       showOptions: false,
       name: 'Intereses',
       value: 50.0,
+      type: 'income',
+      category: 'interests',
     },
     {
       id: '3',
       showOptions: false,
       name: 'Inversiones',
       value: 12.5,
+      type: 'income',
+      category: 'inversions',
     },
   ]);
+
+  dropdownOptions: CategoryOption<'income'>[] = [
+    {
+      label: 'Salario',
+      value: 'salary',
+    },
+    {
+      label: 'Intereses',
+      value: 'interests',
+    },
+    {
+      label: 'Inversiones',
+      value: 'inversions',
+    },
+    {
+      label: 'Otros',
+      value: 'others',
+    },
+  ];
 
   totalIncomes = computed(() =>
     this.defaultIncomesList().reduce((acc, item) => acc + item.value, 0)
