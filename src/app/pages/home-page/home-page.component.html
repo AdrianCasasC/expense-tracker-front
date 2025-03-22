@@ -4,11 +4,13 @@
   <div
     class="rounded-2xl p-2 bg-white shadowed w-fit mx-auto border-2 border-[#598234] mt-4"
   >
-    <h3 class="w-full text-xs text-center text-[#598234]">
+    <h3
+      class="w-full text-xs text-center text-[#598234] uppercase tracking-widest"
+    >
       Últimos movimientos
     </h3>
   </div>
-  <div class="flex flex-col h-[45%] overflow-auto mt-2">
+  <div class="flex flex-col h-[40%] overflow-auto mt-3">
     @for (cost of lastCosts(); track $index) {
     <div
       class="w-full h-[60px] allow-keywords rounded-md bg-re shadowed flex justify-between items-center mb-4 relative"
