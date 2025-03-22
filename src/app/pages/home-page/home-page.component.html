@@ -1,3 +1,28 @@
-<div class="w-full min-h-full">
-  <exptr-graph></exptr-graph>
+<div class="w-full h-full overflow-hidden">
+  <exptr-graph class="h-[40%]"></exptr-graph>
+
+  <div
+    class="rounded-2xl p-2 bg-white shadowed w-fit mx-auto border-2 border-[#598234] mt-4"
+  >
+    <h3 class="w-full text-xs text-center text-[#598234]">
+      Últimos movimientos
+    </h3>
+  </div>
+  <div class="flex flex-col h-[45%] overflow-auto mt-2">
+    @for (cost of lastCosts(); track $index) {
+    <div
+      class="w-full h-[60px] allow-keywords rounded-md bg-re shadowed flex justify-between items-center mb-4 relative"
+      [class.bg-[#f7006d]]="cost.type === 'expense'"
+      [class.bg-[#d0ea00]]="cost.type === 'income'"
+    >
+      <div
+        class="w-full h-full flex justify-between p-4"
+        (click)="onToggleItemOptions(cost.id!)"
+      >
+        <span>{{ cost.name }}</span>
+        <span>{{ cost.value | numberFormatter }}</span>
+      </div>
+    </div>
+    }
+  </div>
 </div>

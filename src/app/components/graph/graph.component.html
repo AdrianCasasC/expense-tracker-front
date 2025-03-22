@@ -7,9 +7,21 @@
   >
   </canvas>
 
-  <div class="w-full flex justify-between">
-    <span (click)="onPreviousMonth()">{{ "<" }}</span>
-    <h2>{{ selectedMonthLabel() }} {{ selectedYearNumber() }}</h2>
-    <span (click)="onNextMonth()">{{ ">" }}</span>
+  <div class="w-full flex justify-between items-center mt-4">
+    <div
+      (click)="onPreviousMonth()"
+      class="rounded-full border-2 border-[#598234] bg-white rotate-180 p-2 centered cursor-pointer shadow-[-2px_-2px_5px_rgba(0,0,0,0.25)]"
+    >
+      <img src="../../../assets/icons/arrow_forward_ios_green.svg" />
+    </div>
+    <h2 class="text-[#598234]">
+      {{ selectedMonthLabel() }} {{ selectedYearNumber() }}
+    </h2>
+    <div
+      (click)="onNextMonth()"
+      class="rounded-full border-2 border-[#598234] bg-white p-2 centered cursor-pointer shadow-[2px_2px_5px_rgba(0,0,0,0.25)]"
+    >
+      <img src="../../../assets/icons/arrow_forward_ios_green.svg" />
+    </div>
   </div>
 </div>
