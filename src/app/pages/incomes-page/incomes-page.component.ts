@@ -12,9 +12,10 @@ import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
 import { CategoryOption, ListItem } from '../../models/global.models';
 import {
   defaultIncomesList,
-  incomeDropdownOptions,
+  incomesDropdownOptions,
 } from '../../constants/global.constants';
 import { getIncomesByMonth } from '../../mocks/api.mock';
+import { IncomesService } from '../../services/incomes.service';
 
 @Component({
   selector: 'app-incomes-page',
@@ -25,58 +26,30 @@ import { getIncomesByMonth } from '../../mocks/api.mock';
 })
 export class IncomesPageComponent implements OnInit {
   /* Injections */
-  private readonly _notificationService = inject(NotificationService);
+  private readonly _incomesService = inject(IncomesService);
 
-  defaultIncomesList = signal<ListItem[]>([]);
+  /* Signals */
+  incomes = this._incomesService.incomes;
 
-  incomeDropdownOptions = incomeDropdownOptions;
+  incomesDropdownOptions = incomesDropdownOptions;
 
   totalIncomes = computed(() =>
-    this.defaultIncomesList().reduce((acc, item) => acc + item.value, 0)
+    this.incomes().reduce((acc, item) => acc + item.value, 0)
   );
 
-  private initIcomeList(): void {
-    this.defaultIncomesList.set(getIncomesByMonth(new Date().getMonth() + 1));
-  }
-
-  constructor() {
-    effect(() =>
-      console.log('Incomes executed edited: ', this.defaultIncomesList())
-    );
-  }
-
   ngOnInit(): void {
-    this.initIcomeList();
+    this._incomesService.getAllIncomes();
   }
 
   onAddIncome(income: ListItem): void {
-    this.defaultIncomesList.update((prev) => [...prev, income]);
-    this._notificationService.createNotification({
-      type: 'success',
-      message: '¡Nuevo ingreso añadido!',
-    });
+    this._incomesService.postIncome(income);
   }
 
   onEditIncome(income: ListItem): void {
-    const index = this.defaultIncomesList().findIndex(
-      (item) => item.id === income.id
-    );
-    this.defaultIncomesList.update((prev) =>
-      prev.map((item, i) => (i === index ? income : item))
-    );
-    this._notificationService.createNotification({
-      type: 'success',
-      message: 'Ingreso editado correctamente!',
-    });
+    this._incomesService.pacthIncome(income.id || '', income);
   }
 
   onDeleteIncome(incomeId: string): void {
-    this.defaultIncomesList.update((prev) =>
-      prev.filter((item) => item.id !== incomeId)
-    );
-    this._notificationService.createNotification({
-      type: 'success',
-      message: 'Ingreso eliminado!',
-    });
+    this._incomesService.deleteIncome(incomeId);
   }
 }

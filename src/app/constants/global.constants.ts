@@ -65,7 +65,7 @@ export const defaultIncomesList = signal<ListItem[]>([
     value: 1800.0,
     type: 'income',
     category: 'salary',
-    date: new Date().toISOString(),
+    date: new Date(),
   },
   {
     id: '2',
@@ -74,7 +74,7 @@ export const defaultIncomesList = signal<ListItem[]>([
     value: 50.0,
     type: 'income',
     category: 'interests',
-    date: new Date().toISOString(),
+    date: new Date(),
   },
   {
     id: '3',
@@ -83,11 +83,11 @@ export const defaultIncomesList = signal<ListItem[]>([
     value: 12.5,
     type: 'income',
     category: 'inversions',
-    date: new Date().toISOString(),
+    date: new Date(),
   },
 ]);
 
-export const incomeDropdownOptions: CategoryOption<'income'>[] = [
+export const incomesDropdownOptions: CategoryOption<'income'>[] = [
   {
     label: 'Salario',
     value: 'salary',
@@ -114,7 +114,7 @@ export const defaultExpensesList = signal<ListItem[]>([
     value: 122.5,
     type: 'expense',
     category: 'food',
-    date: new Date().toISOString(),
+    date: new Date(),
   },
   {
     id: '2',
@@ -123,7 +123,7 @@ export const defaultExpensesList = signal<ListItem[]>([
     value: 12,
     type: 'expense',
     category: 'transport',
-    date: new Date().toISOString(),
+    date: new Date(),
   },
   {
     id: '3',
@@ -132,7 +132,7 @@ export const defaultExpensesList = signal<ListItem[]>([
     value: 57.6,
     type: 'expense',
     category: 'clotes',
-    date: new Date().toISOString(),
+    date: new Date(),
   },
 ]);
 

@@ -1,4 +1,11 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ListAdderComponent } from '../../components/list-adder/list-adder.component';
 import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
 import { NotificationService } from '../../services/notification.service';
@@ -7,6 +14,7 @@ import {
   defaultExpensesList,
   expensesDropdownOptions,
 } from '../../constants/global.constants';
+import { ExpensesService } from '../../services/expenses.service';
 
 @Component({
   selector: 'app-expenses-page',
@@ -15,53 +23,32 @@ import {
   templateUrl: './expenses-page.component.html',
   styleUrl: './expenses-page.component.scss',
 })
-export class ExpensesPageComponent {
+export class ExpensesPageComponent implements OnInit {
   /* Injections */
-  private readonly _notificationService = inject(NotificationService);
+  private readonly _expensesService = inject(ExpensesService);
 
-  /* Variables */
-  defaultExpensesList = defaultExpensesList;
+  /* Signals */
+  expenses = this._expensesService.expenses;
 
   expensesDropdownOptions = expensesDropdownOptions;
 
   totalExpenses = computed(() =>
-    this.defaultExpensesList().reduce((acc, item) => acc + item.value, 0)
+    this.expenses().reduce((acc, item) => acc + item.value, 0)
   );
 
-  constructor() {
-    effect(() =>
-      console.log('Expenses executed edited: ', this.defaultExpensesList())
-    );
+  ngOnInit(): void {
+    this._expensesService.getAllExpenses();
   }
 
   onAddExpense(expense: ListItem): void {
-    this.defaultExpensesList.update((prev) => [...prev, expense]);
-    this._notificationService.createNotification({
-      type: 'success',
-      message: '¡Nuevo gasto añadido!',
-    });
+    this._expensesService.postExpense(expense);
   }
 
   onEditExpense(expense: ListItem): void {
-    const index = this.defaultExpensesList().findIndex(
-      (item) => item.id === expense.id
-    );
-    this.defaultExpensesList.update((prev) =>
-      prev.map((item, i) => (i === index ? expense : item))
-    );
-    this._notificationService.createNotification({
-      type: 'success',
-      message: '¡Gasto editado correctamente!',
-    });
+    this._expensesService.pacthExpense(expense.id || '', expense);
   }
 
   onDeleteExpense(expenseId: string): void {
-    this.defaultExpensesList.update((prev) =>
-      prev.filter((item) => item.id !== expenseId)
-    );
-    this._notificationService.createNotification({
-      type: 'success',
-      message: '¡Gasto eliminado!',
-    });
+    this._expensesService.deleteExpense(expenseId);
   }
 }

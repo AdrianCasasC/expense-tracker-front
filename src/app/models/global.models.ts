@@ -15,7 +15,7 @@ export interface ListItem {
   value: number;
   type: ItemType;
   category: ExpenseCategory | IncomeCategory;
-  date: string;
+  date: Date;
 }
 
 export interface CategoryOption<T extends ItemType> {

@@ -77,7 +77,6 @@ export class ListAdderComponent {
 
   private createItem(): void {
     const newItem: ListItem = {
-      id: Math.random().toString(36).slice(2, 9),
       showOptions: false,
       name: this.itemForm.get('name')?.value || '',
       value: this.itemForm.get('value')?.value || 0,
@@ -87,7 +86,7 @@ export class ListAdderComponent {
           ? (this.itemForm.get('category')?.value as ExpenseCategory)
           : (this.itemForm.get('category')?.value as IncomeCategory) ||
             'others',
-      date: new Date().toISOString(),
+      date: new Date(),
     };
     this.onAdd.emit(newItem);
   }
@@ -106,7 +105,7 @@ export class ListAdderComponent {
           ? (this.itemForm.get('category')?.value as ExpenseCategory)
           : (this.itemForm.get('category')?.value as IncomeCategory) ||
             'others',
-      date: new Date().toISOString(), // Cambiar por la date que tiene el item que viene por ID
+      date: new Date(), // Cambiar por la date que tiene el item que viene por ID
     };
     this.onEdit.emit(editedItem);
   }

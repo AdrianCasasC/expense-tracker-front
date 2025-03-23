@@ -11,7 +11,7 @@
     </h3>
   </div>
   <div class="flex flex-col h-[40%] overflow-auto mt-3">
-    @for (cost of lastCosts(); track $index) {
+    @for (cost of lastCosts; track $index) {
     <div
       class="w-full h-[60px] allow-keywords rounded-md bg-re shadowed flex justify-between items-center mb-4 relative"
       [class.bg-[#f7006d]]="cost.type === 'expense'"
