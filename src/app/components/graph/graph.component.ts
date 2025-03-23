@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   Input,
   OnInit,
   signal,
@@ -11,6 +12,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { daysInMonth } from '../../utils/helpers';
 import { getMonthByNumber } from '../../constants/global.constants';
+import { GraphService } from '../../services/graph.service';
 
 const sampleIncomes = [
   { day: 1, value: 500 },
@@ -32,6 +34,12 @@ const sampleExpenses = [
   styleUrl: './graph.component.scss',
 })
 export class GraphComponent implements OnInit {
+  /* Injections */
+  private readonly _graphService = inject(GraphService);
+
+  /* Signals */
+  graphCosts = this._graphService.graphCosts;
+
   /* ViewChild */
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
@@ -84,7 +92,12 @@ export class GraphComponent implements OnInit {
   };
 
   constructor() {
-    effect(() => this.updateChartData(sampleIncomes, sampleExpenses));
+    effect(() =>
+      this.updateChartData(
+        this.graphCosts().incomes,
+        this.graphCosts().expenses
+      )
+    );
   }
 
   updateChartData(
@@ -114,12 +127,14 @@ export class GraphComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateChartData(sampleIncomes, sampleExpenses);
+    this._graphService.getCostsByYearAndMonth(
+      this.selectedYearNumber(),
+      this.selectedMonthNumber()
+    );
+    this.updateChartData(this.graphCosts().incomes, this.graphCosts().expenses);
   }
 
   onPreviousMonth(): void {
-    // Llamada a API para traer datos del mes anterior
-
     this.selectedMonthNumber.update((prevMonth) => {
       if (prevMonth === 1) {
         this.selectedYearNumber.update((prevYear) => prevYear - 1);
@@ -127,11 +142,13 @@ export class GraphComponent implements OnInit {
       }
       return prevMonth - 1;
     });
+    this._graphService.getCostsByYearAndMonth(
+      this.selectedYearNumber(),
+      this.selectedMonthNumber()
+    );
   }
 
   onNextMonth(): void {
-    // Llamada a API para traer datos del mes siguiente
-
     this.selectedMonthNumber.update((prevMonth) => {
       if (prevMonth === 12) {
         this.selectedYearNumber.update((prevYear) => prevYear + 1);
@@ -139,5 +156,9 @@ export class GraphComponent implements OnInit {
       }
       return prevMonth + 1;
     });
+    this._graphService.getCostsByYearAndMonth(
+      this.selectedYearNumber(),
+      this.selectedMonthNumber()
+    );
   }
 }
