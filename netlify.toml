@@ -1,5 +1,5 @@
 [build]
-  command = "ng build --configuration production && ng run expense-tracker-front:server:production"
+  command = "ng build --configuration production"
   publish = "dist/expense-tracker-front/browser"
   functions = "netlify/functions"
 
