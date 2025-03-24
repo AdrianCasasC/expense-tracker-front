@@ -1,0 +1,9 @@
+[build]
+  command = "ng build --configuration production && ng run tu-app:server:production"
+  publish = "dist/tu-app/browser"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200

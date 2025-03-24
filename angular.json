@@ -60,10 +60,6 @@
               {
                 "replace": "src/environments/environment.ts",
                 "with": "src/environments/environment.pro.ts"
-              },
-              {
-                "replace": "src/configurations/configuration.json",
-                "with": "src/configurations/configuration.pro.json"
               }
             ],
               "optimization": true,
