@@ -1,6 +1,6 @@
 [build]
-  command = "ng build --configuration production && ng run tu-app:server:production"
-  publish = "dist/tu-app/browser"
+  command = "ng build --configuration production && ng run expense-tracker-front:server:production"
+  publish = "dist/expense-tracker-front/browser"
   functions = "netlify/functions"
 
 [[redirects]]
