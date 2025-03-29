@@ -33,8 +33,11 @@ export class ExpensesService extends RequestService<ListItem> {
         )
       )
       .subscribe({
-        next: (resp) => this._expenses.set(resp),
-        error: () => console.error('Error obtaining expenses'),
+        next: (resp) => this._expenses.set(resp || []),
+        error: () => {
+          this._expenses.set([]);
+          console.error('Error obtaining expenses');
+        },
       });
   }
 

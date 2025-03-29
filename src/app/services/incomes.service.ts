@@ -33,8 +33,11 @@ export class IncomesService extends RequestService<ListItem> {
         )
       )
       .subscribe({
-        next: (resp) => this._incomes.set(resp),
-        error: () => console.error('Error obtaining incomes'),
+        next: (resp) => this._incomes.set(resp || []),
+        error: () => {
+          this._incomes.set([]);
+          console.error('Error obtaining incomes');
+        },
       });
   }
 

@@ -26,12 +26,10 @@ export class HomePageComponent implements OnInit {
   private initLastCosts(): void {
     const allCosts = [...this.expenses(), ...this.incomes()];
     const sortedCosts = allCosts.sort(
-      (a, b) => a.date.getTime() - b.date.getTime()
+      (a, b) => b.date.getTime() - a.date.getTime()
     );
-    this.lastCosts = sortedCosts.slice(
-      sortedCosts.length - 5,
-      sortedCosts.length
-    );
+    this.lastCosts =
+      sortedCosts.length > 5 ? sortedCosts.slice(0, 5) : sortedCosts;
   }
 
   constructor() {

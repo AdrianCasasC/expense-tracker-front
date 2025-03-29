@@ -3,7 +3,10 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
@@ -15,5 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideCharts(withDefaultRegisterables()),
     provideHttpClient(withFetch()),
+    BrowserAnimationsModule,
   ],
 };
